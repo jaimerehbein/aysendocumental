@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Mountain, BookOpen, Film, Landmark, Microscope } from 'lucide-react';
+import { Mountain, BookOpen, Film, Landmark, Microscope, Layers } from 'lucide-react';
 
 const HUBS = [
     { id: 'naturaleza', label: 'NATURALEZA', icon: Mountain, color: 'from-green-900/80 to-black' },
@@ -8,13 +8,14 @@ const HUBS = [
     { id: 'cultura', label: 'CULTURA', icon: Landmark, color: 'from-red-900/80 to-black' },
     { id: 'ciencia', label: 'CIENCIA', icon: Microscope, color: 'from-blue-900/80 to-black' },
     { id: 'cine', label: 'CINE', icon: Film, color: 'from-purple-900/80 to-black' },
+    { id: 'series', label: 'SERIES', icon: Layers, color: 'from-indigo-900/80 to-black' },
 ];
 
 export function CategoryHubs() {
     return (
         <div className="px-6 md:px-16 py-8">
             <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-6">Explora por Categoría</h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {HUBS.map((hub) => (
                     <Link
                         key={hub.id}
