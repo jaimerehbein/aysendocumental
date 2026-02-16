@@ -40,7 +40,6 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-max-black relative overflow-x-hidden">
-      {/* vercel-deploy-v2-marker */}
       <HeroCarousel slides={featuredSlides} />
 
       {/* Container with spacing for the sticky navbar and overall flow */}
