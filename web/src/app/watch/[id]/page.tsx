@@ -20,7 +20,7 @@ export default async function WatchPage({
         .single();
 
     if (error || !video) {
-        console.error("Error fetching video:", error);
+        console.error("WatchPage Error - ID:", id, "Error:", error, "Data:", video);
         notFound();
     }
 

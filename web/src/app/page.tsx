@@ -1,7 +1,9 @@
 
-import { Hero } from "@/components/ui/Hero";
+import { HeroCarousel } from "@/components/ui/HeroCarousel";
 import { MovieRow } from "@/components/ui/MovieRow";
 import { CategoryHubs } from "@/components/ui/CategoryHubs";
+import { Top10Row } from "@/components/ui/Top10Row";
+import { BrandUniverse } from "@/components/ui/BrandUniverse";
 import { Footer } from "@/components/layout/Footer";
 import { supabase } from "@/lib/supabaseClient";
 import { CategoryWithVideos } from "@/types/database";
@@ -22,30 +24,35 @@ export default async function Home() {
 
   const typedCategories = (categories as CategoryWithVideos[]) || [];
 
-  // 2. Select featured video
-  const featuredVideo = typedCategories[0]?.videos?.[0];
-
-  const heroProps = featuredVideo ? {
-    id: featuredVideo.id,
-    title: featuredVideo.title,
-    description: featuredVideo.description || "",
-    imageUrl: featuredVideo.thumbnail_url || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"
-  } : {
-    id: 0,
-    title: "Bienvenido a Aysén Documental",
-    description: "Explora la colección audiovisual más completa de la Patagonia.",
-    imageUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"
-  };
+  // 2. Select Featured Videos for Carousel
+  // We prioritize series containers and some top standalone documentaries
+  const featuredSlides = typedCategories
+    .flatMap(c => c.videos || [])
+    .filter(v => v.is_series === true || v.title.includes('1940') || v.title.includes('Trapananda') || v.title.includes('Atlas'))
+    .slice(0, 5)
+    .map(v => ({
+      id: v.id,
+      title: v.title,
+      description: v.description || "Explora la profundidad de la Patagonia a través de este registro único.",
+      imageUrl: v.thumbnail_url || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
+      is_series: v.is_series
+    }));
 
   return (
-    <main className="min-h-screen bg-max-black relative">
-      <Hero {...heroProps} />
+    <main className="min-h-screen bg-max-black relative overflow-x-hidden">
+      <HeroCarousel slides={featuredSlides} />
 
-      {/* Container with negative margin to overlap Hero gradient slightly if desired, or just stack */}
-      <div className="relative z-20 space-y-4 pb-16">
+      {/* Container with spacing for the sticky navbar and overall flow */}
+      <div className="relative z-20 space-y-12 pb-24 -mt-10">
 
         {/* NEW: Category Hubs (Quick Nav) */}
         <CategoryHubs />
+
+        {/* TOP 10 SECTION */}
+        <Top10Row movies={featuredSlides} />
+
+        {/* BRAND UNIVERSE SECTION */}
+        <BrandUniverse />
 
         {/* Content Rows with Varied Layouts */}
         {typedCategories.map((cat, index) => (
@@ -53,14 +60,13 @@ export default async function Home() {
             <MovieRow
               key={cat.id}
               title={cat.name}
-              // Alternate variants for visual interest:
-              // Even index = Landscape (Cinematic), Odd index = Portrait (Poster)
-              variant={index % 2 === 0 ? 'landscape' : 'portrait'}
+              variant="landscape"
               movies={cat.videos.map(v => ({
                 id: v.id,
                 title: v.title,
                 imageUrl: v.thumbnail_url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
-                is_series: v.is_series
+                is_series: v.is_series,
+                url: v.url
               }))}
             />
           )
