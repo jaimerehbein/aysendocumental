@@ -1,14 +1,13 @@
-
 import Link from 'next/link';
-import { Mountain, BookOpen, Film, Landmark, Microscope, Layers } from 'lucide-react';
+import { Mountain, BookOpen, Film, Landmark, Microscope, Layers, Scissors } from 'lucide-react';
 
 const HUBS = [
     { id: 'naturaleza', label: 'NATURALEZA', icon: Mountain, color: 'from-green-900/80 to-black' },
     { id: 'historia', label: 'HISTORIA', icon: BookOpen, color: 'from-amber-900/80 to-black' },
     { id: 'cultura', label: 'CULTURA', icon: Landmark, color: 'from-red-900/80 to-black' },
-    { id: 'ciencia', label: 'CIENCIA', icon: Microscope, color: 'from-blue-900/80 to-black' },
-    { id: 'cine', label: 'CINE', icon: Film, color: 'from-purple-900/80 to-black' },
+    { id: 'cortometrajes', label: 'CORTOS', icon: Scissors, color: 'from-rose-900/80 to-black' },
     { id: 'series', label: 'SERIES', icon: Layers, color: 'from-indigo-900/80 to-black' },
+    { id: 'cine', label: 'CINE', icon: Film, color: 'from-purple-900/80 to-black' },
 ];
 
 export function CategoryHubs() {

@@ -1,7 +1,9 @@
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { clsx } from 'clsx';
+import { Film } from 'lucide-react';
 
 interface Movie {
     id: number;
@@ -61,6 +63,9 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                                 alt={movie.title}
                                 className="w-full h-full object-cover transition-transform duration-500 hover:brightness-110"
                                 loading="lazy"
+                                onError={(e) => {
+                                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80";
+                                }}
                             />
                             {/* Gradient Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
