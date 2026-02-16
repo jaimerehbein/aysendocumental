@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useImperativeHandle, forwardRef } from "react";
-// @ts-expect-error - Plyr types are incomplete
-import Plyr from "plyr";
 import "plyr/dist/plyr.css";
 
 interface AysenPlayerProps {
     videoId: string;
-    poster?: string;
+    poster?: string | null;
     autoplay?: boolean;
 }
 
@@ -18,15 +16,11 @@ export interface AysenPlayerRef {
 
 const AysenPlayer = forwardRef<AysenPlayerRef, AysenPlayerProps>(({ videoId, poster, autoplay = false }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const playerRef = useRef<Plyr | null>(null);
+    const playerRef = useRef<any>(null);
 
     useImperativeHandle(ref, () => ({
-        play: () => {
-            playerRef.current?.play();
-        },
-        pause: () => {
-            playerRef.current?.pause();
-        }
+        play: () => playerRef.current?.play(),
+        pause: () => playerRef.current?.pause(),
     }));
 
     useEffect(() => {
@@ -36,6 +30,9 @@ const AysenPlayer = forwardRef<AysenPlayerRef, AysenPlayerProps>(({ videoId, pos
         if (playerRef.current) {
             playerRef.current.destroy();
         }
+
+        // Use require dynamically to avoid build-time type conflicts
+        const Plyr = require("plyr");
 
         // Initialize Plyr on the container (which wraps the iframe)
         playerRef.current = new Plyr(containerRef.current, {
@@ -47,17 +44,21 @@ const AysenPlayer = forwardRef<AysenPlayerRef, AysenPlayerProps>(({ videoId, pos
                 "current-time",
                 "mute",
                 "volume",
-                "settings",
-                "pip",
                 "fullscreen",
             ],
-            settings: ['quality', 'speed', 'loop'],
             // Plyr will automatically pick up YouTube settings from the iframe src
             hideControls: true,
             clickToPlay: true,
             autoplay,
             resetOnEnd: true,
             ratio: "16:9",
+            youtube: {
+                noCookie: true,
+                rel: 0,
+                showinfo: 0,
+                iv_load_policy: 3,
+                modestbranding: 1,
+            },
         });
 
         return () => {
