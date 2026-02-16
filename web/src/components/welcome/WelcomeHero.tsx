@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Play } from 'lucide-react';
+import { AuthOverlay } from '@/components/auth/AuthOverlay';
 
 interface WelcomeHeroProps {
     mode?: 'video' | 'image';
@@ -17,9 +17,9 @@ export function WelcomeHero({
     imageUrl = 'https://images.unsplash.com/photo-1571439775953-27f31131766a?auto=format&fit=crop&w=1920&q=80'
 }: WelcomeHeroProps) {
     const [isMounted, setIsMounted] = useState(false);
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsMounted(true);
     }, []);
 
@@ -27,6 +27,8 @@ export function WelcomeHero({
 
     return (
         <div className="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden">
+            <AuthOverlay isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+
             {/* --- BACKGROUND LAYER --- */}
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
                 {mode === 'video' && isMounted ? (
@@ -63,32 +65,49 @@ export function WelcomeHero({
                 <div className="text-2xl md:text-3xl font-black tracking-tighter text-white drop-shadow-md">
                     AYSÉN<span className="text-max-accent">.DOC</span>
                 </div>
-                <Link href="/" className="font-bold text-sm md:text-base hover:text-white/80 transition uppercase tracking-widest drop-shadow-md">
-                    Iniciar Sesión
-                </Link>
+                <button
+                    onClick={() => setIsAuthOpen(true)}
+                    className="group flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-6 py-2.5 rounded-full transition-all hover:scale-105"
+                >
+                    <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">Iniciar Sesión</span>
+                    <ChevronRight className="w-4 h-4 text-max-accent group-hover:translate-x-1 transition-transform" />
+                </button>
             </nav>
 
             {/* --- HERO CONTENT --- */}
             <div className="relative z-10 max-w-5xl px-6 space-y-8 animate-fade-in-up">
-                <h1 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tight leading-none drop-shadow-2xl">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 mb-4">
+                    <div className="w-2 h-2 bg-max-accent rounded-full animate-pulse" />
+                    Archivo Audiovisual Histórico
+                </div>
+
+                <h1 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] drop-shadow-2xl uppercase">
                     HISTORIAS QUE <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">TRASCIENDEN</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-500">TRASCIENDEN</span>
                 </h1>
-                <p className="text-base sm:text-lg md:text-2xl text-gray-100 font-light max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
-                    El archivo audiovisual definitivo de la Patagonia. Naturaleza, cultura y relatos olvidados en un solo lugar.
+
+                <p className="text-base sm:text-lg md:text-xl text-zinc-300 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+                    Descubre el alma de la Patagonia a través de una curaduría excepcional de material histórico y contemporáneo.
                 </p>
 
-                <div className="flex flex-col md:flex-row gap-4 justify-center items-center pt-8">
-                    <Link
-                        href="/"
-                        className="w-full md:w-auto px-10 py-4 bg-max-accent hover:bg-blue-600 text-white font-bold rounded-full text-lg tracking-wide transition-all hover:scale-105 shadow-[0_0_30px_rgba(63,117,255,0.4)] flex items-center justify-center gap-3 backdrop-blur-sm"
+                <div className="flex flex-col md:flex-row gap-6 justify-center items-center pt-8">
+                    <button
+                        onClick={() => setIsAuthOpen(true)}
+                        className="w-full md:w-auto px-12 py-5 bg-max-accent hover:bg-blue-600 text-white font-black rounded-full text-lg tracking-widest transition-all hover:scale-105 shadow-[0_20px_50px_rgba(63,117,255,0.4)] flex items-center justify-center gap-3 backdrop-blur-sm group"
                     >
-                        INGRESAR AHORA <ChevronRight className="w-5 h-5" />
-                    </Link>
-                    <div className="text-sm text-gray-300 font-medium drop-shadow-md">
-                        Acceso libre y gratuito.
+                        EXPLORAR ARCHIVO <Play className="w-5 h-5 fill-current group-hover:scale-110 transition-transform" />
+                    </button>
+
+                    <div className="flex flex-col items-center md:items-start">
+                        <div className="text-sm text-white font-bold uppercase tracking-widest">Acceso Libre</div>
+                        <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Sin suscripción obligatoria</div>
                     </div>
                 </div>
+            </div>
+
+            {/* Bottom Scroll Indicator */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce opacity-40">
+                <div className="w-px h-12 bg-gradient-to-b from-white to-transparent" />
             </div>
         </div>
     );
