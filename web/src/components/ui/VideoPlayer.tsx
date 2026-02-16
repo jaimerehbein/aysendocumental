@@ -52,7 +52,8 @@ export function VideoPlayer({ url, title }: VideoPlayerProps) {
                 <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: 'url(https://ondamedia.cl/images/default_share.jpg)' }}></div>
                 <div className="relative z-10 flex flex-col items-center">
                     <p className="text-2xl font-bold mb-2">Disponible en OndaMedia</p>
-                    <p className="text-gray-300 mb-6 max-w-md text-center">Para ver "{title}", necesitas acceder a la plataforma de cine chileno.</p>
+                    <p className="text-gray-400 text-sm italic">&quot;Preservando la historia de la Patagonia&quot;</p>
+                    <p className="text-gray-300 mb-6 max-w-md text-center">Para ver &quot;{title}&quot;, necesitas acceder a la plataforma de cine chileno.</p>
                     <a
                         href={url}
                         target="_blank"

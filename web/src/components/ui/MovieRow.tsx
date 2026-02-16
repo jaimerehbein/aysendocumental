@@ -53,7 +53,7 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                             )}
                         >
                             <Image
-                                src={movie.imageUrl}
+                                src={movie.imageUrl || "https://images.unsplash.com/photo-1518182170546-0766ce6fec93?auto=format&fit=crop&w=600&q=80"}
                                 alt={movie.title}
                                 fill
                                 className="object-cover transition-transform duration-500 hover:brightness-110"

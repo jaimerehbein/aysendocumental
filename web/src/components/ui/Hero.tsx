@@ -7,25 +7,26 @@ interface HeroProps {
     id?: number;
     title: string;
     description: string;
-    imageUrl: string;
+    imageUrl?: string | null;
 }
+
+const DEFAULT_HERO = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80";
 
 export function Hero({ id = 1, title, description, imageUrl }: HeroProps) {
     return (
         <div className="relative h-[85vh] w-full overflow-hidden">
             <div className="absolute inset-0">
                 <Image
-                    src={imageUrl}
+                    src={imageUrl || DEFAULT_HERO}
                     alt={title}
                     fill
                     className="object-cover"
                     priority
                 />
 
-                {/* Max Style Gradients: Vignette + Bottom Fade + Left Shade */}
-                <div className="absolute inset-0 bg-gradient-to-r from-max-black via-max-black/40 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-max-black via-max-black/10 to-transparent" />
-                <div className="absolute inset-0 bg-[image:var(--image-gradient-vignette)] mix-blend-multiply" />
+                {/* Max Style Gradients: Stronger Vignette + Bottom Fade + Left Shade */}
+                <div className="absolute inset-0 bg-gradient-to-r from-max-black via-max-black/60 to-transparent z-[1]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-max-black via-transparent to-transparent z-[1]" />
             </div>
 
             <div className="absolute bottom-[20%] left-0 z-10 w-full px-6 md:px-16 space-y-6 animate-fade-in-up">

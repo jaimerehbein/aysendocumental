@@ -9,11 +9,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "img.youtube.com", // For maxresdefault.jpg
+        hostname: "img.youtube.com",
       },
       {
         protocol: "https",
-        hostname: "i.ytimg.com", // For hqdefault.jpg and other YouTube variants
+        hostname: "*.ytimg.com", // Catch-all for i.ytimg.com, i1.ytimg.com, etc.
       },
     ],
   },

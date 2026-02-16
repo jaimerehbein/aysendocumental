@@ -24,17 +24,14 @@ export default async function WatchPage({
         notFound();
     }
 
-    // @ts-ignore: Supabase types complexity
     const categoryName = video.category?.name || "Documental";
     const year = new Date(video.published_at).getFullYear();
 
     // 2. Fetch "More Like This" (Videos in same category, excluding current)
-    // @ts-ignore
-    const categoryId = video.category?.id;
     const { data: relatedVideos } = await supabase
         .from('videos')
         .select('id, title, thumbnail_url, created_at')
-        .eq('category_id', categoryId)
+        .eq('category_id', video.category?.id)
         .neq('id', id)
         .limit(4);
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 
 interface WelcomeHeroProps {
@@ -12,37 +13,44 @@ interface WelcomeHeroProps {
 
 export function WelcomeHero({
     mode = 'video',
-    videoId = 'AhP5tg_9iE0', // Default: Patagonia 4K
+    videoId = 'hVvEISFw9w0', // Patagonia 8K Cinematic
     imageUrl = 'https://images.unsplash.com/photo-1571439775953-27f31131766a?auto=format&fit=crop&w=1920&q=80'
 }: WelcomeHeroProps) {
-    const [isClient, setIsClient] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        setIsClient(true);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setIsMounted(true);
     }, []);
+
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
     return (
         <div className="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden">
             {/* --- BACKGROUND LAYER --- */}
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
-                {mode === 'video' && isClient ? (
+                {mode === 'video' && isMounted ? (
                     <div className="relative w-full h-full overflow-hidden">
                         <iframe
                             className="absolute top-1/2 left-1/2 w-[150vw] h-[150vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none object-cover"
-                            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&disablekb=1`}
+                            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&disablekb=1&origin=${origin}`}
                             allow="autoplay; encrypted-media"
                             allowFullScreen
-                            // @ts-ignore
+                            // @ts-expect-error - allowtransparency is legacy but useful
                             allowtransparency="true"
                             title="Background Video"
                         />
                     </div>
                 ) : (
-                    <img
-                        src={imageUrl}
-                        alt="Aysén Landscape"
-                        className="w-full h-full object-cover opacity-60 scale-105 animate-slow-zoom"
-                    />
+                    <div className="relative w-full h-full opacity-60 scale-105 animate-slow-zoom">
+                        <Image
+                            src={imageUrl}
+                            alt="Aysén Landscape"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                    </div>
                 )}
 
                 {/* Overlays for readability */}
@@ -62,11 +70,11 @@ export function WelcomeHero({
 
             {/* --- HERO CONTENT --- */}
             <div className="relative z-10 max-w-5xl px-6 space-y-8 animate-fade-in-up">
-                <h1 className="text-5xl md:text-8xl font-black tracking-tight leading-none drop-shadow-2xl">
+                <h1 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tight leading-none drop-shadow-2xl">
                     HISTORIAS QUE <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">TRASCIENDEN</span>
                 </h1>
-                <p className="text-lg md:text-2xl text-gray-100 font-light max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+                <p className="text-base sm:text-lg md:text-2xl text-gray-100 font-light max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
                     El archivo audiovisual definitivo de la Patagonia. Naturaleza, cultura y relatos olvidados en un solo lugar.
                 </p>
 

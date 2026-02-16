@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useImperativeHandle, forwardRef } from "react";
-// @ts-ignore
+// @ts-expect-error - Plyr types are incomplete
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
 
@@ -71,13 +71,13 @@ const AysenPlayer = forwardRef<AysenPlayerRef, AysenPlayerProps>(({ videoId, pos
     // Ideally we'd use source API for changing videos, but for reliability we will unmount/remount key.
 
     return (
-        <div className="w-full h-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl relative group feature-plyr isolate" key={videoId}>
+        <div className="w-full h-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl relative group feature-plyr isolate" key={videoId} data-poster={poster}>
             <div ref={containerRef} className="plyr__video-embed w-full h-full">
                 <iframe
                     src={`https://www.youtube-nocookie.com/embed/${videoId}?origin=${typeof window !== 'undefined' ? window.location.origin : ''}&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1&controls=0&disablekb=1`}
                     allowFullScreen
                     allow="autoplay; encrypted-media; picture-in-picture"
-                    // @ts-ignore
+                    // @ts-expect-error - allowtransparency is valid for iframe but not in standard HTML types
                     allowtransparency="true"
                 ></iframe>
             </div>
