@@ -35,10 +35,13 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
 
     const cardClass = getCardDimensions(variant);
 
+    const rowId = title.toLowerCase().includes('series') ? 'series' : title.toLowerCase().split(' ')[0];
+    const displayTitle = title.replace('Series: ', '');
+
     return (
-        <div className="px-6 md:px-16 py-8 space-y-4">
+        <section id={rowId} className="px-6 md:px-16 py-8 space-y-4">
             <h2 className="text-xl md:text-2xl font-bold text-gray-100 hover:text-white transition cursor-pointer mb-2 flex items-center gap-2 group">
-                {title}
+                {displayTitle}
                 <span className="text-sm text-max-accent opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">Explorar todo &gt;</span>
             </h2>
             <div className="group relative">
@@ -66,6 +69,6 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                     ))}
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
