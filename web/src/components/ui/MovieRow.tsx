@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { clsx } from 'clsx';
-import { Play } from 'lucide-react';
+import { Play, Volume2, VolumeX } from 'lucide-react';
 
 interface Movie {
     id: number;
@@ -26,6 +26,7 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
     const [isHovered, setIsHovered] = useState(false);
     const [showVideo, setShowVideo] = useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
@@ -60,11 +61,14 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
         >
             <div
                 className={clsx(
-                    "relative block rounded-xl overflow-hidden transition-all duration-700 ease-out cursor-pointer snap-start hover:z-50 hover:scale-110 hover:shadow-[0_20px_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10 hover:ring-max-accent/40 bg-max-black",
+                    "relative block rounded-xl overflow-hidden transition-all duration-700 ease-out cursor-pointer snap-start hover:z-50 hover:scale-110 hover:shadow-[0_20px_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10 hover:ring-max-accent/40 bg-max-black group",
                     cardClass
                 )}
             >
-                <Link href={movie.is_series ? `/series/${movie.id}` : `/watch/${movie.id}`} className="absolute inset-0 z-10" />
+                <Link
+                    href={movie.is_series ? `/series/${movie.id}` : `/watch/${movie.id}`}
+                    className="absolute inset-0 z-40"
+                />
                 {/* 1. Progress Indicator (Top Bar) during hover delay */}
                 {isHovered && !showVideo && (
                     <motion.div
@@ -101,8 +105,22 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                                 </div>
                             )}
 
+                            {/* Sound Toggle Button (Netflix Style) */}
+                            {isVideoLoaded && (
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setIsMuted(!isMuted);
+                                    }}
+                                    className="absolute bottom-20 right-5 z-50 p-2 rounded-full bg-black/40 border border-white/20 backdrop-blur-md text-white hover:bg-white/20 transition-all hover:scale-110"
+                                >
+                                    {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5 text-max-accent animate-pulse" />}
+                                </button>
+                            )}
+
                             <iframe
-                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&playlist=${videoId}&rel=0&iv_load_policy=3&vq=hd1080&autohide=1&disablekb=1&showinfo=0`}
+                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&loop=1&playlist=${videoId}&rel=0&iv_load_policy=3&vq=hd1080&autohide=1&disablekb=1&showinfo=0`}
                                 className={clsx(
                                     "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] pointer-events-none object-cover transition-opacity duration-1000",
                                     isVideoLoaded ? "opacity-100" : "opacity-0"
@@ -136,7 +154,7 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
 
                 {/* Glassmorphism & Gradient Overlay */}
                 <div className={clsx(
-                    "absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-700 flex flex-col justify-end p-5 z-20",
+                    "absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-700 flex flex-col justify-end p-5 z-20 pointer-events-none",
                     showVideo && isVideoLoaded ? "opacity-40" : "opacity-90"
                 )}>
                     <div className={clsx(
