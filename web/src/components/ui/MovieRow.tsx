@@ -46,7 +46,10 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                     {movies.map((movie) => (
                         <div className={clsx("relative flex-none rounded-md overflow-hidden transition-all duration-300 ease-out cursor-pointer snap-start hover:z-20 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,43,73,0.6)] hover:ring-2 hover:ring-max-accent", cardClass)}>
                             <img
-                                src={movie.imageUrl || "https://images.unsplash.com/photo-1518182170546-0766ce6fec93?auto=format&fit=crop&w=600&q=80"}
+                                src={
+                                    movie.imageUrl?.replace('maxresdefault.jpg', 'hqdefault.jpg') ||
+                                    "https://images.unsplash.com/photo-1518182170546-0766ce6fec93?auto=format&fit=crop&w=600&q=80"
+                                }
                                 alt={movie.title}
                                 className="w-full h-full object-cover transition-transform duration-500 hover:brightness-110"
                                 loading="lazy"
