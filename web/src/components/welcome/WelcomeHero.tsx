@@ -13,7 +13,7 @@ interface WelcomeHeroProps {
 
 export function WelcomeHero({
     mode = 'video',
-    videoId = 'mMtCo3tycpQ', // Patagonia 4K Cinematic - Verified working embed
+    videoId = 'l_Wv6L-m_hQ', // Patagonia 4K Cinematic - Verified stable embed
     imageUrl = 'https://images.unsplash.com/photo-1571439775953-27f31131766a?auto=format&fit=crop&w=1920&q=80'
 }: WelcomeHeroProps) {
     const [isMounted, setIsMounted] = useState(false);

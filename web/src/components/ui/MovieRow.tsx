@@ -51,7 +51,7 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                         >
                             <img
                                 src={
-                                    movie.imageUrl?.replace('maxresdefault.jpg', '0.jpg') ||
+                                    movie.imageUrl?.replace('maxresdefault.jpg', 'mqdefault.jpg') ||
                                     "https://images.unsplash.com/photo-1518182170546-0766ce6fec93?auto=format&fit=crop&w=600&q=80"
                                 }
                                 alt={movie.title}
