@@ -26,50 +26,55 @@ const AysenPlayer = forwardRef<AysenPlayerRef, AysenPlayerProps>(({ videoId, pos
     useEffect(() => {
         if (!containerRef.current) return;
 
-        // Destroy previous instance if it exists to avoid duplication
-        if (playerRef.current) {
-            playerRef.current.destroy();
-        }
+        let player: any = null;
 
-        // Use require dynamically to avoid build-time type conflicts
-        const Plyr = require("plyr");
+        const initPlyr = async () => {
+            try {
+                // Dynamically import Plyr only on the client
+                const PlyrModule = await import("plyr");
+                const Plyr = PlyrModule.default || PlyrModule;
 
-        // Initialize Plyr on the container (which wraps the iframe)
-        playerRef.current = new Plyr(containerRef.current, {
-            debug: false,
-            controls: [
-                "play-large",
-                "play",
-                "progress",
-                "current-time",
-                "mute",
-                "volume",
-                "fullscreen",
-            ],
-            // Plyr will automatically pick up YouTube settings from the iframe src
-            hideControls: true,
-            clickToPlay: true,
-            autoplay,
-            resetOnEnd: true,
-            ratio: "16:9",
-            youtube: {
-                noCookie: true,
-                rel: 0,
-                showinfo: 0,
-                iv_load_policy: 3,
-                modestbranding: 1,
-            },
-        });
+                if (!containerRef.current) return;
 
-        return () => {
-            if (playerRef.current) {
-                playerRef.current.destroy();
-                playerRef.current = null;
+                player = new (Plyr as any)(containerRef.current, {
+                    debug: false,
+                    controls: [
+                        "play-large",
+                        "play",
+                        "progress",
+                        "current-time",
+                        "mute",
+                        "volume",
+                        "fullscreen",
+                    ],
+                    hideControls: true,
+                    clickToPlay: true,
+                    autoplay,
+                    resetOnEnd: true,
+                    ratio: "16:9",
+                    youtube: {
+                        noCookie: true,
+                        rel: 0,
+                        showinfo: 0,
+                        iv_load_policy: 3,
+                        modestbranding: 1,
+                    },
+                });
+
+                playerRef.current = player;
+            } catch (err) {
+                console.error("Failed to initialize Plyr:", err);
             }
         };
-    }, [autoplay]); // Re-init if these change, though mostly stable. 
-    // Note: VideoID change handled by React Re-rendering the iframe, Plyr might need soft reset.
-    // Ideally we'd use source API for changing videos, but for reliability we will unmount/remount key.
+
+        initPlyr();
+
+        return () => {
+            if (player) {
+                player.destroy();
+            }
+        };
+    }, [videoId, autoplay]);
 
     return (
         <div className="w-full h-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl relative group feature-plyr isolate" key={videoId} data-poster={poster}>

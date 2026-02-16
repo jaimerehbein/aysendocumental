@@ -13,7 +13,23 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "*.ytimg.com", // Catch-all for i.ytimg.com, i1.ytimg.com, etc.
+        hostname: "i.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i1.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i2.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i3.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i4.ytimg.com",
       },
     ],
   },
