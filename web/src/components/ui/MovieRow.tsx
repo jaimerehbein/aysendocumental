@@ -44,10 +44,14 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
             <div className="group relative">
                 <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-hide snap-x px-1">
                     {movies.map((movie) => (
-                        <div className={clsx("relative flex-none rounded-md overflow-hidden transition-all duration-300 ease-out cursor-pointer snap-start hover:z-20 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,43,73,0.6)] hover:ring-2 hover:ring-max-accent", cardClass)}>
+                        <Link
+                            key={movie.id}
+                            href={`/watch/${movie.id}`}
+                            className={clsx("relative flex-none rounded-md overflow-hidden transition-all duration-300 ease-out cursor-pointer snap-start hover:z-20 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,43,73,0.6)] hover:ring-2 hover:ring-max-accent", cardClass)}
+                        >
                             <img
                                 src={
-                                    movie.imageUrl?.replace('maxresdefault.jpg', 'hqdefault.jpg') ||
+                                    movie.imageUrl?.replace('maxresdefault.jpg', '0.jpg') ||
                                     "https://images.unsplash.com/photo-1518182170546-0766ce6fec93?auto=format&fit=crop&w=600&q=80"
                                 }
                                 alt={movie.title}
@@ -58,7 +62,7 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                 <p className="text-white font-bold text-sm drop-shadow-md truncate w-full">{movie.title}</p>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
