@@ -7,6 +7,7 @@ interface Movie {
     id: number;
     title: string;
     imageUrl: string;
+    is_series?: boolean;
 }
 
 type RowVariant = 'portrait' | 'landscape' | 'square';
@@ -49,7 +50,7 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
                     {movies.map((movie) => (
                         <Link
                             key={movie.id}
-                            href={`/watch/${movie.id}`}
+                            href={movie.is_series ? `/series/${movie.id}` : `/watch/${movie.id}`}
                             className={clsx("relative flex-none rounded-md overflow-hidden transition-all duration-300 ease-out cursor-pointer snap-start hover:z-20 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,43,73,0.6)] hover:ring-2 hover:ring-max-accent", cardClass)}
                         >
                             <img

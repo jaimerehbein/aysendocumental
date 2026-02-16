@@ -18,6 +18,11 @@ export interface Video {
     category_id: number | null;
     published_at: string;
     created_at: string;
+    // New fields for series
+    is_series: boolean;
+    series_id: number | null;
+    season_number: number | null;
+    episode_number: number | null;
     // Joins
     category?: Category;
     tags?: Tag[];

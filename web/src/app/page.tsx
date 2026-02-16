@@ -59,7 +59,8 @@ export default async function Home() {
               movies={cat.videos.map(v => ({
                 id: v.id,
                 title: v.title,
-                imageUrl: v.thumbnail_url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef"
+                imageUrl: v.thumbnail_url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
+                is_series: v.is_series
               }))}
             />
           )
