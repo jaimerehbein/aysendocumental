@@ -16,12 +16,10 @@ export function Hero({ id = 1, title, description, imageUrl }: HeroProps) {
     return (
         <div className="relative h-[85vh] w-full overflow-hidden">
             <div className="absolute inset-0">
-                <Image
+                <img
                     src={imageUrl || DEFAULT_HERO}
                     alt={title}
-                    fill
-                    className="object-cover"
-                    priority
+                    className="w-full h-full object-cover"
                 />
 
                 {/* Max Style Gradients: Stronger Vignette + Bottom Fade + Left Shade */}
