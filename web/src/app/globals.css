@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  /* Retaining Netflix Red for legacy support, but adding Max palette */
+  --color-netflix-red: #E50914;
+  --color-netflix-black: #141414;
+
+  /* Max Design Tokens */
+  --color-max-brand: #002B49;
+  /* Deep Navy */
+  --color-max-blue: #004D8C;
+  /* Brighter Blue for accents */
+  --color-max-accent: #3F75FF;
+  /* Electric Blue */
+  --color-max-black: #050505;
+  /* Blacker than Netflix */
+  --color-max-text: #F5F5F7;
+
+  /* Custom Gradients */
+  --image-gradient-vignette: radial-gradient(circle, transparent 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+:root {
+  --background: #050505;
+  /* Max uses deeper blacks */
+  --foreground: #F5F5F7;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  /* Ensure Inter is used */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling like Max/Netflix */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Plyr Customization - Netflix/Tope de Gama Style */
+:root {
+  --plyr-color-main: #E50914;
+  /* Netflix Red */
+  --plyr-video-control-color: #ffffff;
+  --plyr-video-control-background-hover: rgba(229, 9, 20, 0.8);
+  --plyr-menu-background: rgba(20, 20, 20, 0.95);
+  --plyr-menu-color: #ffffff;
+  --plyr-tooltip-background: rgba(20, 20, 20, 0.9);
+  --plyr-tooltip-color: #ffffff;
+}
+
+.feature-plyr .plyr__control--overlaid {
+  background: rgba(229, 9, 20, 0.9);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.feature-plyr .plyr__control--overlaid:hover {
+  background: #E50914;
+  transform: scale(1.1);
+}
+
+.feature-plyr .plyr__controls {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+  padding-bottom: 20px;
+}
+
+/* Force YouTube Native Controls hidden by obscuring interactions */
+/* Plyr handles this with its poster/overlay, but we reinforce it */
+
+
+/* Ensure the poster is visible initially */
+.feature-plyr .plyr__poster {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Hide big play button when playing if needed, but plyr does this automatically */
+
+/* Force rounded corners on the player container if needed, though the wrapper has it */
+.feature-plyr .plyr {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 100%;
+}
