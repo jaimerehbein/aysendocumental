@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { clsx } from 'clsx';
 import { Play, Volume2, VolumeX } from 'lucide-react';
 
-interface Movie {
+export interface Movie {
     id: number;
     title: string;
     imageUrl: string;
@@ -14,7 +14,7 @@ interface Movie {
     url?: string; // We'll use this for the preview
 }
 
-type RowVariant = 'portrait' | 'landscape' | 'square';
+export type RowVariant = 'portrait' | 'landscape' | 'square';
 
 interface MovieRowProps {
     title: string;
@@ -22,7 +22,7 @@ interface MovieRowProps {
     variant?: RowVariant;
 }
 
-function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
+export function MovieCard({ movie, variant = 'landscape' }: { movie: Movie, variant?: RowVariant }) {
     const [isHovered, setIsHovered] = useState(false);
     const [showVideo, setShowVideo] = useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
