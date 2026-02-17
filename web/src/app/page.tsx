@@ -7,8 +7,8 @@ import { Footer } from "@/components/layout/Footer";
 import { supabase } from "@/lib/supabaseClient";
 import { CategoryWithVideos } from "@/types/database";
 
-// Revalidar cada 60 segundos (Incremental Static Regeneration)
-export const revalidate = 60;
+// Forced revalidation for deployment V4
+export const revalidate = 0;
 
 export default async function Home() {
   // 1. Fetch categories with their videos
@@ -42,7 +42,7 @@ export default async function Home() {
       <HeroCarousel slides={featuredSlides} />
 
       {/* Container with spacing for the sticky navbar and overall flow */}
-      <div className="relative z-20 space-y-12 pb-24 -mt-10">
+      <div className="relative z-20 space-y-12 pb-24 -mt-10" id="deployment-marker-v4">
 
         {/* NEW: Circular Hubs (HBO Max Style) */}
         <HubsRow />
