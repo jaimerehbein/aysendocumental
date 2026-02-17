@@ -7,6 +7,8 @@ export interface MediaItem {
     thumbnailUrl: string;
     isSeries: boolean;
     youtubeId: string | null;
+    season_number?: number;
+    episode_number?: number;
 }
 
 /**
@@ -61,6 +63,8 @@ export function normalizeMedia(raw: any): MediaItem {
         videoUrl: raw.url || "",
         thumbnailUrl: thumb,
         isSeries: raw.is_series || false,
-        youtubeId: youtubeId
+        youtubeId: youtubeId,
+        season_number: raw.season_number,
+        episode_number: raw.episode_number
     };
 }
