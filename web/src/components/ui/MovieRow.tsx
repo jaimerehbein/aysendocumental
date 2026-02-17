@@ -120,7 +120,7 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                             )}
 
                             <iframe
-                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&loop=1&playlist=${videoId}&rel=0&iv_load_policy=3&vq=hd1080&autohide=1&disablekb=1&showinfo=0`}
+                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&loop=1&playlist=${videoId}&rel=0&iv_load_policy=3&vq=hd360&autohide=1&disablekb=1&showinfo=0`}
                                 className={clsx(
                                     "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] pointer-events-none object-cover transition-opacity duration-1000",
                                     isVideoLoaded ? "opacity-100" : "opacity-0"
@@ -136,8 +136,8 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             src={
-                                movie.imageUrl?.replace('maxresdefault.jpg', 'mqdefault.jpg') ||
-                                "https://images.unsplash.com/photo-1518182170546-0766ce6fec93?auto=format&fit=crop&w=600&q=80"
+                                movie.imageUrl ||
+                                `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
                             }
                             alt={movie.title}
                             className={clsx(
@@ -146,7 +146,15 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                             )}
                             loading="lazy"
                             onError={(e) => {
-                                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80";
+                                // Fallback sequence for YouTube thumbnails
+                                const target = e.target as HTMLImageElement;
+                                if (target.src.includes('maxresdefault')) {
+                                    target.src = target.src.replace('maxresdefault', 'hqdefault');
+                                } else if (target.src.includes('hqdefault')) {
+                                    target.src = target.src.replace('hqdefault', 'mqdefault');
+                                } else {
+                                    target.src = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80";
+                                }
                             }}
                         />
                     )}
@@ -154,26 +162,26 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
 
                 {/* Glassmorphism & Gradient Overlay */}
                 <div className={clsx(
-                    "absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-700 flex flex-col justify-end p-5 z-20 pointer-events-none",
+                    "absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-700 flex flex-col justify-end p-3 md:p-5 z-20 pointer-events-none",
                     showVideo && isVideoLoaded ? "opacity-40" : "opacity-90"
                 )}>
                     <div className={clsx(
                         "transition-all duration-700 ease-out",
-                        isHovered ? "translate-y-0" : "translate-y-4"
+                        isHovered ? "translate-y-0" : "translate-y-2 md:translate-y-4"
                     )}>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                             {movie.is_series && (
-                                <span className="bg-max-accent text-[8px] font-black px-1.5 py-0.5 rounded text-white uppercase tracking-widest shadow-[0_0_10px_rgba(0,123,255,0.5)]">Serie</span>
+                                <span className="bg-max-accent text-[7px] md:text-[8px] font-black px-1.5 py-0.5 rounded text-white uppercase tracking-widest shadow-[0_0_10px_rgba(0,123,255,0.5)]">Serie</span>
                             )}
                             {showVideo ? (
-                                <span className="bg-white/10 backdrop-blur-xl border border-white/20 text-[8px] font-black px-2 py-1 rounded text-white uppercase tracking-widest flex items-center gap-1.5">
-                                    <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" /> PREVIEW
+                                <span className="bg-white/10 backdrop-blur-xl border border-white/20 text-[7px] md:text-[8px] font-black px-2 py-1 rounded text-white uppercase tracking-widest flex items-center gap-1.5">
+                                    <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-red-500 rounded-full animate-pulse" /> PREVIEW
                                 </span>
                             ) : (
-                                <span className="text-[8px] text-white/40 font-bold uppercase tracking-widest group-hover:text-white/60 transition-colors">4K UHD • HDR</span>
+                                <span className="text-[7px] md:text-[8px] text-zinc-400 font-black uppercase tracking-widest group-hover:text-white/60 transition-colors">4K UHD • HDR</span>
                             )}
                         </div>
-                        <p className="text-white font-extrabold text-sm md:text-lg leading-tight drop-shadow-2xl line-clamp-2 uppercase tracking-tighter transition-all group-hover:text-max-accent">
+                        <p className="text-white font-black text-[10px] md:text-lg leading-tight md:leading-tight drop-shadow-2xl line-clamp-2 uppercase tracking-tighter transition-all group-hover:text-max-accent">
                             {movie.title}
                         </p>
                     </div>
@@ -194,9 +202,9 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
     const getCardDimensions = (v: RowVariant) => {
         switch (v) {
             case 'portrait':
-                return 'w-[160px] md:w-[220px] aspect-[2/3]';
+                return 'w-[140px] md:w-[220px] aspect-[2/3]';
             case 'square':
-                return 'w-[160px] md:w-[220px] aspect-square';
+                return 'w-[150px] md:w-[220px] aspect-square';
             case 'landscape':
             default:
                 return 'w-[220px] md:w-[320px] aspect-video';

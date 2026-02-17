@@ -74,43 +74,47 @@ export default function Welcome() {
                 </div>
             </section>
 
-            {/* --- DONATION SECTION (Respectful & Premium) --- */}
-            <section className="py-24 px-6 md:px-16 bg-max-brand relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
-                <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-white">
-                        Apoyo a la Mantención
-                    </div>
+            {/* --- DISCRETE DONATION FOOTER --- */}
+            <section className="py-20 px-6 md:px-16 bg-black border-t border-white/5">
+                <div className="max-w-4xl mx-auto">
+                    <div className="bg-zinc-900/50 border border-white/10 rounded-[3rem] p-10 md:p-16 relative overflow-hidden group">
+                        {/* Subtle background glow */}
+                        <div className="absolute -top-24 -right-24 w-64 h-64 bg-max-accent/10 rounded-full blur-[80px] group-hover:bg-max-accent/20 transition-colors duration-700" />
 
-                    <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none drop-shadow-2xl">
-                        Hecho a pulso <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">por ayseninos</span>
-                    </h2>
+                        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div className="space-y-6 text-left">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-max-accent/10 border border-max-accent/20 text-[10px] font-black uppercase tracking-[0.2em] text-max-accent">
+                                    Aporte Voluntario
+                                </div>
+                                <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-white uppercase italic leading-none">
+                                    Hecho a pulso <br />
+                                    <span className="text-zinc-500 group-hover:text-white transition-colors duration-700">por ayseninos</span>
+                                </h2>
+                                <p className="text-zinc-400 leading-relaxed font-light text-sm max-w-sm">
+                                    Aysén Documental es un esfuerzo independiente. Tu aporte nos ayuda directamente a cubrir los costos de servidor para mantener este archivo siempre libre y accesible.
+                                </p>
+                            </div>
 
-                    <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed font-light">
-                        Mantenemos este sitio online de forma independiente. Si valoras este esfuerzo por preservar nuestra memoria, considera un aporte para cubrir los costos de servidor y operación.
-                    </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 max-w-4xl mx-auto">
-                        <button className="group bg-zinc-900/40 backdrop-blur-md border border-white/10 hover:border-white/30 p-8 rounded-3xl transition-all hover:-translate-y-2">
-                            <div className="text-3xl font-black text-white mb-2">$1.000</div>
-                            <div className="text-xs font-bold text-blue-300 uppercase tracking-widest">Aporte Semilla</div>
-                        </button>
-                        <button className="group bg-gradient-to-br from-max-accent to-blue-700 p-8 rounded-3xl shadow-2xl transform scale-110 border border-white/20 relative">
-                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-max-brand text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest">Recomendado</div>
-                            <div className="text-3xl font-black text-white mb-2">$5.000</div>
-                            <div className="text-xs font-bold text-white uppercase tracking-widest">Colaborador Activo</div>
-                        </button>
-                        <button className="group bg-zinc-900/40 backdrop-blur-md border border-white/10 hover:border-white/30 p-8 rounded-3xl transition-all hover:-translate-y-2 text-white">
-                            <div className="text-3xl font-black text-white mb-2">$10.000</div>
-                            <div className="text-xs font-bold text-blue-300 uppercase tracking-widest">Guardián del Sitio</div>
-                        </button>
-                    </div>
-
-                    <div className="pt-12">
-                        <button className="text-blue-200 hover:text-white font-bold uppercase tracking-widest text-xs flex items-center gap-2 mx-auto transition-colors">
-                            <ArrowRight className="w-4 h-4" /> Otros montos de donación
-                        </button>
+                            <div className="grid grid-cols-3 gap-3">
+                                <button className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-max-accent/50 hover:bg-max-accent/5 transition-all text-white group/btn">
+                                    <span className="text-lg font-black">$1k</span>
+                                    <span className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest mt-1 group-hover/btn:text-max-accent">Semilla</span>
+                                </button>
+                                <button className="flex flex-col items-center justify-center p-4 rounded-2xl bg-max-accent border border-white/10 hover:scale-105 transition-all text-white shadow-xl shadow-max-accent/20 group/btn">
+                                    <span className="text-lg font-black">$5k</span>
+                                    <span className="text-[8px] font-bold text-white/70 uppercase tracking-widest mt-1">Socio</span>
+                                </button>
+                                <button className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-max-accent/50 hover:bg-max-accent/5 transition-all text-white group/btn">
+                                    <span className="text-lg font-black">$10k</span>
+                                    <span className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest mt-1 group-hover/btn:text-max-accent">Guardián</span>
+                                </button>
+                                <div className="col-span-3 pt-4 text-center">
+                                    <button className="text-[10px] font-bold text-zinc-600 hover:text-max-accent uppercase tracking-[0.2em] transition-colors flex items-center gap-2 mx-auto">
+                                        Personalizar Aporte <ArrowRight className="w-3 h-3" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

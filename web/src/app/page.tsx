@@ -1,9 +1,8 @@
 
 import { HeroCarousel } from "@/components/ui/HeroCarousel";
 import { MovieRow } from "@/components/ui/MovieRow";
-import { CategoryHubs } from "@/components/ui/CategoryHubs";
+import { HubsRow } from "@/components/ui/HubsRow";
 import { Top10Row } from "@/components/ui/Top10Row";
-import { BrandUniverse } from "@/components/ui/BrandUniverse";
 import { Footer } from "@/components/layout/Footer";
 import { supabase } from "@/lib/supabaseClient";
 import { CategoryWithVideos } from "@/types/database";
@@ -45,14 +44,11 @@ export default async function Home() {
       {/* Container with spacing for the sticky navbar and overall flow */}
       <div className="relative z-20 space-y-12 pb-24 -mt-10">
 
-        {/* NEW: Category Hubs (Quick Nav) */}
-        <CategoryHubs />
+        {/* NEW: Circular Hubs (HBO Max Style) */}
+        <HubsRow />
 
         {/* TOP 10 SECTION */}
         <Top10Row movies={featuredSlides} />
-
-        {/* BRAND UNIVERSE SECTION */}
-        <BrandUniverse />
 
         {/* Content Rows with Varied Layouts */}
         {typedCategories.map((cat, index) => (
@@ -60,7 +56,7 @@ export default async function Home() {
             <MovieRow
               key={cat.id}
               title={cat.name}
-              variant="landscape"
+              variant={cat.name.toLowerCase().includes('series') ? 'portrait' : 'landscape'}
               movies={cat.videos.map(v => ({
                 id: v.id,
                 title: v.title,

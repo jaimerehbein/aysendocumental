@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Bell, User, Heart } from 'lucide-react';
+import { Search, Bell, User, Heart, Star } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export function Navbar() {
@@ -35,53 +35,65 @@ export function Navbar() {
                     : 'bg-gradient-to-b from-max-black/90 via-max-black/40 to-transparent py-6'
                     }`}
             >
-                <div className="px-6 md:px-16 flex items-center justify-between">
-                    {/* Logo Area */}
-                    <div className="flex items-center gap-10">
-                        <Link href="/" className="text-3xl font-black text-white tracking-tighter hover:scale-105 transition-transform">
-                            AYSÉN<span className="text-max-accent">.DOC</span>
-                        </Link>
+                <div className="px-6 md:px-16 flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                        {/* Logo Area */}
+                        <div className="flex items-center gap-10">
+                            <Link href="/" className="text-2xl md:text-3xl font-black text-white tracking-tighter hover:scale-105 transition-transform">
+                                AYSÉN<span className="text-max-accent">.DOC</span>
+                            </Link>
 
-                        {/* Desktop Navigation - Max Style (Bold Uppercase) */}
-                        <ul className="hidden md:flex items-center gap-8 text-sm font-black text-gray-300 tracking-wide uppercase">
-                            <li>
-                                <Link href="/" className="hover:text-white transition decoration-max-accent underline-offset-8 hover:underline">Inicio</Link>
-                            </li>
-                            <li>
-                                <Link href="/#series" className="hover:text-white transition decoration-max-accent underline-offset-8 hover:underline">Series</Link>
-                            </li>
-                            <li>
-                                <Link href="/#naturaleza" className="hover:text-white transition decoration-max-accent underline-offset-8 hover:underline">Películas</Link>
-                            </li>
-                            {/* New Donation Link */}
-                            <li>
-                                <Link href="/apoyar" className="text-max-accent hover:text-white transition flex items-center gap-2 decoration-white underline-offset-8 hover:underline">
-                                    <Heart className="w-4 h-4 fill-current" /> APOYAR
-                                </Link>
-                            </li>
-                        </ul>
+                            {/* Desktop Navigation */}
+                            <ul className="hidden md:flex items-center gap-8 text-sm font-black text-gray-300 tracking-wide uppercase">
+                                <li>
+                                    <Link href="/" className="hover:text-white transition decoration-max-accent underline-offset-8 hover:underline">Inicio</Link>
+                                </li>
+                                <li>
+                                    <Link href="/#series" className="hover:text-white transition decoration-max-accent underline-offset-8 hover:underline">Series</Link>
+                                </li>
+                                <li>
+                                    <Link href="/#naturaleza" className="hover:text-white transition decoration-max-accent underline-offset-8 hover:underline">Películas</Link>
+                                </li>
+                                <li>
+                                    <Link href="/apoyar" className="text-max-accent hover:text-white transition flex items-center gap-2 decoration-white underline-offset-8 hover:underline">
+                                        <Heart className="w-4 h-4 fill-current" /> APOYAR
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Right Actions */}
+                        <div className="flex items-center gap-4 md:gap-6 text-white">
+                            <Search
+                                className="w-5 h-5 md:w-6 md:h-6 cursor-pointer hover:text-max-accent transition lg:block hidden"
+                                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                            />
+
+                            <div className="relative group hidden sm:block">
+                                <Bell className="w-5 h-5 md:w-6 md:h-6 cursor-pointer hover:text-max-accent transition" />
+                                <span className="absolute -top-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-max-accent rounded-full text-[8px] md:text-[10px] flex items-center justify-center font-black animate-pulse text-white">2</span>
+                            </div>
+
+                            {/* User Profile */}
+                            <div className="flex items-center gap-2 cursor-pointer group">
+                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-max-blue to-max-accent p-[1px] md:p-[2px] group-hover:scale-110 transition duration-300">
+                                    <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                                        <User className="w-4 h-4 md:w-6 md:h-6 text-gray-300" />
+                                    </div>
+                                </div>
+                                <span className="hidden lg:block text-sm font-bold group-hover:text-max-accent transition">Mi Cuenta</span>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Right Actions */}
-                    <div className="flex items-center gap-6 text-white">
-                        <Search
-                            className="w-6 h-6 cursor-pointer hover:text-max-accent transition"
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
-                        />
-                        <div className="relative group">
-                            <Bell className="w-6 h-6 cursor-pointer hover:text-max-accent transition hidden sm:block" />
-                            <span className="absolute -top-1 -right-1 w-4 h-4 bg-max-accent rounded-full text-[10px] flex items-center justify-center font-black animate-pulse">2</span>
-                        </div>
-
-                        {/* User Profile */}
-                        <div className="flex items-center gap-2 cursor-pointer group">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-max-blue to-max-accent p-[2px] group-hover:scale-110 transition duration-300">
-                                <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                                    <User className="w-6 h-6 text-gray-300" />
-                                </div>
-                            </div>
-                            <span className="hidden lg:block text-sm font-bold group-hover:text-max-accent transition">Mi Cuenta</span>
-                        </div>
+                    {/* Mobile Category Pills (HBO Max Style) */}
+                    <div className="flex md:hidden items-center justify-center gap-6 pb-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                        <Link href="/" className="text-white border-b-2 border-max-accent pb-1">Inicio</Link>
+                        <Link href="/series" className="hover:text-white transition-colors">Series</Link>
+                        <Link href="/peliculas" className="hover:text-white transition-colors">Películas</Link>
+                        <Link href="/hbo" className="hover:text-white transition-colors flex items-center gap-1">
+                            <Star className="w-3 h-3 fill-current" /> Premium
+                        </Link>
                     </div>
                 </div>
             </nav>

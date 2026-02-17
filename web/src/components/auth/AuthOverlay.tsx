@@ -60,12 +60,20 @@ export function AuthOverlay({ isOpen, onClose }: AuthOverlayProps) {
                             </div>
 
                             {/* Forms */}
-                            <div className="space-y-4">
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    // Simulated login/register
+                                    window.location.href = '/';
+                                }}
+                                className="space-y-4"
+                            >
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest ml-1">Email</label>
                                     <div className="relative group">
                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-max-accent transition-colors" />
                                         <input
+                                            required
                                             type="email"
                                             placeholder="tu@email.com"
                                             className="w-full bg-zinc-800/50 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-max-accent/50 focus:border-max-accent/50 transition-all placeholder:text-zinc-600"
@@ -78,6 +86,7 @@ export function AuthOverlay({ isOpen, onClose }: AuthOverlayProps) {
                                     <div className="relative group">
                                         <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-max-accent transition-colors" />
                                         <input
+                                            required
                                             type="password"
                                             placeholder="••••••••"
                                             className="w-full bg-zinc-800/50 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-max-accent/50 focus:border-max-accent/50 transition-all placeholder:text-zinc-600"
@@ -87,20 +96,20 @@ export function AuthOverlay({ isOpen, onClose }: AuthOverlayProps) {
 
                                 {mode === 'login' && (
                                     <div className="text-right">
-                                        <button className="text-xs font-bold text-zinc-500 hover:text-max-accent transition-colors">
+                                        <button type="button" className="text-xs font-bold text-zinc-500 hover:text-max-accent transition-colors">
                                             ¿Olvidaste tu contraseña?
                                         </button>
                                     </div>
                                 )}
 
                                 <button
-                                    onClick={() => window.location.href = '/'}
+                                    type="submit"
                                     className="w-full bg-max-accent hover:bg-blue-600 text-white font-black py-4 rounded-2xl transition-all shadow-[0_10px_30px_rgba(63,117,255,0.3)] hover:shadow-[0_15px_40px_rgba(63,117,255,0.4)] flex items-center justify-center gap-2 group"
                                 >
                                     {mode === 'login' ? 'INICIAR SESIÓN' : 'CREAR CUENTA'}
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </button>
-                            </div>
+                            </form>
 
                             {/* Divider */}
                             <div className="relative py-2">
