@@ -11,6 +11,7 @@ interface Slide {
     description: string;
     imageUrl: string;
     is_series?: boolean;
+    youtubeId?: string | null;
 }
 
 interface HeroCarouselProps {
@@ -21,10 +22,13 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
 
+    // Auto-advance only if no video is playing (conceptually, though here we want video background so we might keep auto-advance or pause it)
+    // For cinematic feel, we'll keep the slow auto-advance (10s) or let the user navigate. 
+    // Let's keep it 10s.
     useEffect(() => {
         const timer = setInterval(() => {
             nextSlide();
-        }, 8000);
+        }, 12000); // 12 seconds for more time to watch
         return () => clearInterval(timer);
     }, [currentIndex]);
 
@@ -49,22 +53,44 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    transition={{ duration: 1.5, ease: "easeInOut" }} // Slower transition for cinematic effect
                     className="absolute inset-0"
                 >
-                    <img
-                        src={slides[currentIndex].imageUrl}
-                        alt={slides[currentIndex].title}
-                        className="w-full h-full object-cover scale-105 animate-slow-zoom"
-                        onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b';
-                        }}
-                    />
+                    {/* VIDEO BACKGROUND LAYER */}
+                    {slides[currentIndex].youtubeId ? (
+                        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                            <iframe
+                                src={`https://www.youtube.com/embed/${slides[currentIndex].youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slides[currentIndex].youtubeId}&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1`}
+                                className="absolute top-1/2 left-1/2 w-[150%] h-[150%] -translate-x-1/2 -translate-y-1/2 object-cover opacity-60"
+                                allow="autoplay; encrypted-media"
+                            />
+                        </div>
+                    ) : (
+                        // Fallback static image if no video ID
+                        <img
+                            src={slides[currentIndex].imageUrl}
+                            alt={slides[currentIndex].title}
+                            className="absolute inset-0 w-full h-full object-cover scale-105 animate-slow-zoom z-0"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                if (target.src.includes('maxresdefault')) {
+                                    target.src = target.src.replace('maxresdefault', 'hqdefault');
+                                } else if (target.src.includes('hqdefault')) {
+                                    target.src = target.src.replace('hqdefault', 'mqdefault');
+                                } else {
+                                    target.src = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b';
+                                }
+                            }}
+                        />
+                    )}
 
-                    {/* Cinematic Gradients - Enhanced for better text contrast */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-max-black/90 via-max-black/40 to-transparent z-[1]" />
+                    {/* Gradient Overlays for Readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-max-black/95 via-max-black/50 to-transparent z-[1]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-max-black via-transparent to-transparent z-[1]" />
-                    <div className="absolute inset-0 bg-black/40 z-[0]" />
+
+                    {/* Extra darken layer if video is playing to ensure text pop */}
+                    <div className="absolute inset-0 bg-black/20 z-[1]" />
+
                 </motion.div>
             </AnimatePresence>
 

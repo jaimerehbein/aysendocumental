@@ -9,7 +9,23 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Aysén Documental | Archivo Histórico de la Patagonia",
-  description: "Explora la identidad de la Región de Aysén a través de su archivo audiovisual. Documentales, series y relatos históricos de la Patagonia Chilena.",
+  description: "Explora la identidad de la Región de Aysén a través de su archivo audiovisual. Documentales, cine y relatos históricos de la Patagonia Chilena.",
+  openGraph: {
+    title: "Aysén Documental | Cine y Memoria Patagona",
+    description: "La plataforma de streaming del patrimonio audiovisual de Aysén.",
+    url: "https://aysendocumental.cl",
+    siteName: "Aysén Documental",
+    images: [
+      {
+        url: "/og-image.jpg", // Asegurarse de tener esto o usar una externa
+        width: 1200,
+        height: 630,
+        alt: "Paisaje de Aysén Cine",
+      },
+    ],
+    locale: "es_CL",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

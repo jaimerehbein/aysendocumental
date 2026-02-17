@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabaseClient";
+import { normalizeMedia } from "@/lib/mediaUtils";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { BrandSeriesView } from "@/components/ui/BrandSeriesView";
@@ -29,16 +30,23 @@ export default async function SeriesPage({ params }: PageProps) {
         .order('season_number', { ascending: true })
         .order('episode_number', { ascending: true });
 
+    // NORMALIZATION LAYER
+    const normalizedSeries = normalizeMedia(series);
+    const normalizedEpisodes = (episodes || []).map(ep => normalizeMedia(ep));
+
     return (
         <main className="min-h-screen bg-max-black">
             <BrandSeriesView
-                series={series}
-                episodes={(episodes || []).map(ep => ({
+                series={{
+                    ...series,
+                    thumbnail_url: normalizedSeries.thumbnailUrl
+                }}
+                episodes={normalizedEpisodes.map(ep => ({
                     id: ep.id,
                     title: ep.title,
                     description: ep.description || "",
-                    thumbnail_url: ep.thumbnail_url || "",
-                    episode_number: ep.episode_number || 1,
+                    thumbnail_url: ep.thumbnailUrl, // Now safe (no maxresdefault)
+                    episode_number: ep.season_number || 1, // Mapping fix: normalizeMedia keeps raw but lets fallback
                     season_number: ep.season_number || 1
                 }))}
             />

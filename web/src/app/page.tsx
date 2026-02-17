@@ -6,6 +6,7 @@ import { Top10Row } from "@/components/ui/Top10Row";
 import { Footer } from "@/components/layout/Footer";
 import { supabase } from "@/lib/supabaseClient";
 import { CategoryWithVideos } from "@/types/database";
+import { normalizeMedia } from "@/lib/mediaUtils";
 
 // Forced revalidation for deployment V4
 export const revalidate = 0;
@@ -20,34 +21,32 @@ export default async function Home() {
   if (error) {
     console.error("Error fetching categories:", error);
   }
-
   const typedCategories = (categories as CategoryWithVideos[]) || [];
 
-  // 2. Select Featured Videos for Carousel
-  // We prioritize series containers and some top standalone documentaries
+  // 2. Select Featured Videos for Carousel (ROBUST & NORMALIZED)
   const featuredSlides = typedCategories
     .flatMap(c => c.videos || [])
     .filter(v => v.is_series === true || v.title.includes('1940') || v.title.includes('Trapananda') || v.title.includes('Atlas'))
     .slice(0, 5)
+    .map(v => normalizeMedia(v)) // Sanitización Centralizada
     .map(v => ({
       id: v.id,
       title: v.title,
-      description: v.description || "Explora la profundidad de la Patagonia a través de este registro único.",
-      imageUrl: v.thumbnail_url || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
-      is_series: v.is_series
+      description: v.description,
+      imageUrl: v.thumbnailUrl, // Thumbnail garantizado por normalizeMedia
+      is_series: v.isSeries,
+      youtubeId: v.youtubeId // NEW: Passed for video background
     }));
 
   return (
     <main className="min-h-screen bg-max-black relative overflow-x-hidden">
       <HeroCarousel slides={featuredSlides} />
 
-      {/* Container with spacing for the sticky navbar and overall flow */}
+      {/* ... (HubsRow y Top10Row igual) ... */}
       <div className="relative z-20 space-y-12 pb-24 -mt-10" id="deployment-marker-v5">
 
-        {/* NEW: Circular Hubs (HBO Max Style) */}
+        {/* ... (HubsRow) ... */}
         <HubsRow />
-
-        {/* TOP 10 SECTION */}
         <Top10Row movies={featuredSlides} />
 
         {/* Content Rows with Varied Layouts */}
@@ -57,12 +56,13 @@ export default async function Home() {
               key={cat.id}
               title={cat.name}
               variant={cat.name.toLowerCase().includes('series') ? 'portrait' : 'landscape'}
-              movies={cat.videos.map(v => ({
-                id: v.id,
-                title: v.title,
-                imageUrl: v.thumbnail_url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
-                is_series: v.is_series,
-                url: v.url
+              movies={cat.videos.map(v => normalizeMedia(v)).map(m => ({
+                id: m.id,
+                title: m.title,
+                imageUrl: m.thumbnailUrl,
+                is_series: m.isSeries,
+                url: m.videoUrl,
+                youtubeId: m.youtubeId // NEW: Explicit pass for Smart Cards
               }))}
             />
           )

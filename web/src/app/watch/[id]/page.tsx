@@ -1,5 +1,6 @@
 import WatchView from '@/components/WatchView';
 import { supabase } from '@/lib/supabaseClient';
+import { normalizeMedia } from '@/lib/mediaUtils';
 import { notFound } from 'next/navigation';
 
 // Revalidar cada 60 segundos
@@ -35,10 +36,22 @@ export default async function WatchPage({
         .neq('id', id)
         .limit(4);
 
+    // NORMALIZATION LAYER
+    const normalizedVideo = normalizeMedia(video);
+    const normalizedRelated = (relatedVideos || []).map(v => normalizeMedia(v));
+
     return (
         <WatchView
-            video={video}
-            relatedVideos={relatedVideos || []}
+            video={{
+                ...video,
+                url: normalizedVideo.videoUrl,
+                thumbnail_url: normalizedVideo.thumbnailUrl
+            }}
+            relatedVideos={normalizedRelated.map(v => ({
+                id: v.id.toString(),
+                title: v.title,
+                thumbnail_url: v.thumbnailUrl
+            }))}
             categoryName={categoryName}
             year={year}
         />
