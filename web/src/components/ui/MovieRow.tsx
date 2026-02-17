@@ -62,7 +62,7 @@ export function MovieCard({ movie, variant = 'landscape' }: { movie: Movie, vari
             <div
                 className={clsx(
                     "relative block rounded-xl overflow-hidden transition-all duration-700 ease-out cursor-pointer snap-start hover:z-50 hover:scale-110 hover:shadow-[0_20px_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10 hover:ring-max-accent/40 bg-max-black group",
-                    cardClass
+                    variant === 'portrait' ? 'aspect-[2/3] w-32 md:w-48' : 'aspect-video w-48 md:w-80'
                 )}
             >
                 <Link
@@ -233,7 +233,7 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
             <div className="relative group/row">
                 <div className="flex gap-4 overflow-x-auto pb-10 scrollbar-hide snap-x px-1 pt-2">
                     {movies.map((movie) => (
-                        <MovieCard key={movie.id} movie={movie} cardClass={cardClass} />
+                        <MovieCard key={movie.id} movie={movie} variant={variant} />
                     ))}
                 </div>
             </div>

@@ -110,19 +110,24 @@ export function Navbar() {
 
             {/* Basic Search Overlay */}
             {isSearchOpen && (
-                <div className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-3xl p-20 flex flex-col items-center">
+                <div className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-3xl p-20 flex flex-col items-center justify-center">
                     <button
                         onClick={() => setIsSearchOpen(false)}
                         className="absolute top-10 right-10 text-white hover:text-max-accent transition-colors"
                     >
-                        <Search className="w-10 h-10 rotate-45" />
+                        <X className="w-10 h-10" />
                     </button>
-                    <input
-                        autoFocus
-                        type="text"
-                        placeholder="Buscar documentales, series o productoras..."
-                        className="w-full max-w-4xl bg-transparent border-b-2 border-white/20 text-4xl md:text-6xl font-black text-white focus:outline-none focus:border-max-accent py-8 placeholder:text-white/10 uppercase tracking-tighter"
-                    />
+                    <form onSubmit={handleSearch} className="w-full max-w-4xl">
+                        <input
+                            autoFocus
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Buscar documentales, series o productoras..."
+                            className="w-full bg-transparent border-b-2 border-white/20 text-4xl md:text-6xl font-black text-white focus:outline-none focus:border-max-accent py-8 placeholder:text-white/10 uppercase tracking-tighter"
+                        />
+                        <p className="mt-6 text-zinc-500 font-bold uppercase tracking-widest text-sm text-center">Presiona Enter para buscar en todo el archivo</p>
+                    </form>
                 </div>
             )}
         </>
