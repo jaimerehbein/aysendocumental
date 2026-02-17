@@ -176,7 +176,7 @@ export function MovieCard({ movie, variant = 'landscape' }: { movie: Movie, vari
                                 <span className="bg-max-accent text-[7px] md:text-[8px] font-black px-1.5 py-0.5 rounded text-white uppercase tracking-widest shadow-[0_0_10px_rgba(0,123,255,0.5)]">Serie</span>
                             )}
                             {showVideo ? (
-                                <span className="bg-white/10 backdrop-blur-xl border border-white/20 text-[7px] md:text-[8px] font-black px-2 py-1 rounded text-white uppercase tracking-widest flex items-center gap-1.5">
+                                <span className="bg-white/10 backdrop-blur-xl border-white/20 text-[7px] md:text-[8px] font-black px-2 py-1 rounded text-white uppercase tracking-widest flex items-center gap-1.5">
                                     <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-red-500 rounded-full animate-pulse" /> PREVIEW
                                 </span>
                             ) : (

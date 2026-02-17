@@ -10,7 +10,17 @@ import { usePathname, useRouter } from 'next/navigation';
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            setIsSearchOpen(false);
+            router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        }
+    };
 
     // Sólo mostramos el navbar en la home por ahora, o en todas partes menos watch
     const isWatchPage = pathname?.startsWith('/watch/');
