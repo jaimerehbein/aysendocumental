@@ -8,7 +8,7 @@ export default function Welcome() {
         <main className="min-h-screen bg-black text-white selection:bg-max-accent selection:text-white">
 
             {/* --- HERO SECTION --- */}
-            <WelcomeHero mode="video" videoId="t_7Oa7_fK5g" />
+            <WelcomeHero mode="video" videoId="QyOKDNUlELo" />
 
             {/* --- MISSION STATEMENT (Propósito del Proyecto) --- */}
             <section className="py-24 px-6 md:px-16 bg-zinc-950">
