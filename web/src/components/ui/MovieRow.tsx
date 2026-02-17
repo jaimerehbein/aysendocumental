@@ -213,7 +213,6 @@ export function MovieRow({ title, movies, variant = 'landscape' }: MovieRowProps
         }
     };
 
-    const cardClass = getCardDimensions(variant);
     const rowId = title.toLowerCase().includes('series') ? 'series' : title.toLowerCase().split(' ')[0];
     const displayTitle = title.replace('Series: ', '');
 
