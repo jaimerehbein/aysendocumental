@@ -4,8 +4,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Bell, User, Heart, Star } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Search, Bell, User, Heart, Star, X } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);

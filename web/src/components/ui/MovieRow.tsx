@@ -88,7 +88,7 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                             exit={{ opacity: 0 }}
                             className="absolute inset-0 z-0 overflow-hidden"
                         >
-                            {/* 2. Sophisticated Loading Shimmer (Glassmorphism) */}
+                            {/* Loading Shimmer for Video */}
                             {!isVideoLoaded && (
                                 <div className="absolute inset-0 z-10 bg-max-black/40 backdrop-blur-md flex items-center justify-center">
                                     <div className="relative w-12 h-12">
@@ -101,11 +101,10 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                                             <Play className="w-4 h-4 text-max-accent fill-current animate-pulse" />
                                         </div>
                                     </div>
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shimmer" />
                                 </div>
                             )}
 
-                            {/* Sound Toggle Button (Netflix Style) */}
+                            {/* Sound Toggle Button */}
                             {isVideoLoaded && (
                                 <button
                                     onClick={(e) => {
@@ -137,7 +136,7 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                             exit={{ opacity: 0 }}
                             src={
                                 movie.imageUrl ||
-                                `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+                                `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
                             }
                             alt={movie.title}
                             className={clsx(
@@ -146,25 +145,28 @@ function MovieCard({ movie, cardClass }: { movie: Movie, cardClass: string }) {
                             )}
                             loading="lazy"
                             onError={(e) => {
-                                // Fallback sequence for YouTube thumbnails
+                                // 4-STAGE ROBUST FALLBACK STRATEGY
                                 const target = e.target as HTMLImageElement;
                                 if (target.src.includes('maxresdefault')) {
+                                    // Step 1: Try High Quality if MaxRes fails
                                     target.src = target.src.replace('maxresdefault', 'hqdefault');
                                 } else if (target.src.includes('hqdefault')) {
+                                    // Step 2: Try Medium Quality (always exists) if HQ fails
                                     target.src = target.src.replace('hqdefault', 'mqdefault');
-                                } else {
+                                } else if (target.src.includes('mqdefault') || target.src.includes('ytimg.com')) {
+                                    // Step 3: Try professional category placeholder if YouTube fails entirely
                                     target.src = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80";
+                                } else {
+                                    // Step 4: Final safety black background with logo (should never be seen)
+                                    target.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADBwIAMffS0AAAAABJRU5ErkJggg==";
                                 }
                             }}
                         />
                     )}
                 </AnimatePresence>
 
-                {/* Glassmorphism & Gradient Overlay */}
-                <div className={clsx(
-                    "absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-700 flex flex-col justify-end p-3 md:p-5 z-20 pointer-events-none",
-                    showVideo && isVideoLoaded ? "opacity-40" : "opacity-90"
-                )}>
+                {/* Loading Skeleton Overlays (Glassmorphism) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-3 md:p-5 z-20 pointer-events-none">
                     <div className={clsx(
                         "transition-all duration-700 ease-out",
                         isHovered ? "translate-y-0" : "translate-y-2 md:translate-y-4"

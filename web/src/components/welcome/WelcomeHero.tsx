@@ -13,7 +13,7 @@ interface WelcomeHeroProps {
 
 export function WelcomeHero({
     mode = 'video',
-    videoId = 'QyOKDNUlELo', // Aysén La Trapananda - Verified stable by browser agent
+    videoId = 'kYI_U7uCunA', // Patagonia 4K - High stability verified source
     imageUrl = 'https://images.unsplash.com/photo-1571439775953-27f31131766a?auto=format&fit=crop&w=1920&q=80'
 }: WelcomeHeroProps) {
     const [isMounted, setIsMounted] = useState(false);
